@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore AI tools and AI models with IndexTools.">
+    <meta name="theme-color" content="#050505">
+
+    <title>Directory — IndexTools</title>
+
+    <link rel="icon" type="image/png" href="./it.png">
+    <link rel="apple-touch-icon" href="./it.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #050505;
+            --panel: #0b0b0b;
+            --panel-hover: #101010;
+            --white: #f5f5f5;
+            --muted: #858585;
+            --muted-light: #ababab;
+            --border: #222222;
+            --border-light: #343434;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--black);
+            color: var(--white);
+            font-family:
+                Inter,
+                ui-sans-serif,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button {
+            color: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .shell {
+            width: min(1380px, calc(100% - 48px));
+            margin: 0 auto;
+        }
+
+        /* NAV */
+        nav {
+            height: 72px;
+            position: sticky;
+            z-index: 100;
+            top: 0;
+            border-bottom: 1px solid var(--border);
+            background: rgba(5, 5, 5, .97);
+        }
+
+        .nav-inner {
+            width: min(1380px, calc(100% - 48px));
+            height: 100%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-weight: 700;
+            font-size: 17px;
+            letter-spacing: -.4px;
+        }
+
+        .brand img {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--border-light);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .home-link {
+            color: #888;
+            font-size: 13px;
+            padding: 9px 13px;
+        }
+
+        .home-link:hover {
+            color: white;
+        }
+
+        .count-badge {
+            border: 1px solid var(--border);
+            padding: 8px 11px;
+            border-radius: 7px;
+            color: #8b8b8b;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        /* HEADER */
+        .page-head {
+            padding: 66px 0 38px;
+        }
+
+        .eyebrow {
+            color: #747474;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .page-head h1 {
+            font-size: clamp(39px, 5vw, 61px);
+            letter-spacing: -3px;
+            line-height: 1;
+            font-weight: 640;
+        }
+
+        .page-head p {
+            color: #858585;
+            max-width: 620px;
+            font-size: 15px;
+            line-height: 1.65;
+            margin-top: 19px;
+        }
+
+        /* CONTROLS */
+        .controls {
+            padding: 0 0 30px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .search-box {
+            width: min(100%, 390px);
+            position: relative;
+        }
+
+        .search-box svg {
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            stroke: #777;
+            pointer-events: none;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 44px;
+            outline: none;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            background: #090909;
+            color: white;
+            padding: 0 15px 0 42px;
+            font-size: 13px;
+        }
+
+        .search-box input::placeholder {
+            color: #626262;
+        }
+
+        .search-box input:focus {
+            border-color: #777;
+        }
+
+        .filters {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .filter {
+            cursor: pointer;
+            border: 1px solid var(--border-light);
+            background: transparent;
+            min-height: 37px;
+            border-radius: 7px;
+            padding: 0 14px;
+            font-size: 12px;
+            color: #888;
+            transition: .15s ease;
+        }
+
+        .filter:hover {
+            color: white;
+            border-color: #555;
+        }
+
+        .filter.active {
+            color: black;
+            background: white;
+            border-color: white;
+        }
+
+        /* CONTENT */
+        .directory-area {
+            padding: 39px 0 85px;
+        }
+
+        .result-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .result-head h2 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #a7a7a7;
+        }
+
+        #resultCount {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            border-top: 1px solid var(--border);
+            border-left: 1px solid var(--border);
+        }
+
+        .card {
+            padding: 23px;
+            min-height: 260px;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: background .18s ease;
+        }
+
+        .card:hover {
+            background: var(--panel-hover);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 43px;
+            height: 43px;
+            border-radius: 9px;
+            padding: 8px;
+            object-fit: contain;
+            background: white;
+        }
+
+        .price {
+            flex-shrink: 0;
+            border: 1px solid #303030;
+            color: #8b8b8b;
+            padding: 5px 8px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            font-size: 9px;
+            letter-spacing: .45px;
+            font-weight: 700;
+        }
+
+        .card h3 {
+            margin-top: 25px;
+            font-size: 17px;
+            letter-spacing: -.3px;
+            font-weight: 620;
+        }
+
+        .description {
+            margin-top: 8px;
+            color: #7d7d7d;
+            font-size: 12.5px;
+            line-height: 1.55;
+        }
+
+        .card-bottom {
+            margin-top: auto;
+            padding-top: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .category {
+            color: #606060;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+        }
+
+        .visit {
+            color: #aaa;
+            font-size: 12px;
+            transition: color .15s;
+        }
+
+        .card:hover .visit {
+            color: white;
+        }
+
+        .empty {
+            display: none;
+            border: 1px solid var(--border);
+            text-align: center;
+            padding: 75px 20px;
+            color: #777;
+        }
+
+        .empty strong {
+            display: block;
+            color: #bbb;
+            margin-bottom: 8px;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 27px 0;
+            color: #5e5e5e;
+            font-size: 12px;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 1100px) {
+            .grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 780px) {
+            .shell,
+            .nav-inner {
+                width: calc(100% - 30px);
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .controls-row {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+                max-width: none;
+            }
+
+            .filters {
+                overflow-x: auto;
+                padding-bottom: 3px;
+            }
+
+            .filter {
+                flex-shrink: 0;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-head {
+                padding-top: 48px;
+            }
+
+            .page-head h1 {
+                letter-spacing: -2px;
+            }
+
+            .count-badge {
+                display: none;
+            }
+
+            .card {
+                min-height: 235px;
+            }
+
+            .footer-inner {
+                gap: 8px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="nav-inner">
+
+        <a class="brand" href="/" data-route="/">
+            <img src="./it.png" alt="IndexTools">
+            <span>IndexTools</span>
+        </a>
+
+        <div class="nav-right">
+            <a href="/" class="home-link" data-route="/">Home</a>
+            <span class="count-badge">AI Directory</span>
+        </div>
+
+    </div>
+</nav>
+
+<main>
+
+    <header class="page-head shell">
+        <div class="eyebrow">IndexTools Directory</div>
+        <h1>Explore AI tools.</h1>
+        <p>
+            Browse AI products and model providers for coding, research,
+            writing, image generation, video, productivity and more.
+        </p>
+    </header>
+
+    <section class="controls">
+        <div class="shell controls-row">
+
+            <div class="search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M20 20L16.2 16.2"></path>
+                </svg>
+
+                <input
+                    id="searchInput"
+                    type="search"
+                    placeholder="Search tools, models or categories..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="filters">
+                <button class="filter active" data-filter="all">All</button>
+                <button class="filter" data-filter="free">Free</button>
+                <button class="filter" data-filter="paid">Paid</button>
+                <button class="filter" data-filter="model">Models</button>
+                <button class="filter" data-filter="coding">Coding</button>
+                <button class="filter" data-filter="image">Image</button>
+                <button class="filter" data-filter="research">Research</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="directory-area shell">
+
+        <div class="result-head">
+            <h2>Directory</h2>
+            <span id="resultCount">0 results</span>
+        </div>
+
+        <div id="toolsGrid" class="grid"></div>
+
+        <div class="empty" id="emptyState">
+            <strong>No tools found.</strong>
+            Try another search or category.
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <div class="shell footer-inner">
+        <span>© 2026 IndexTools</span>
+        <span>Independent AI tools & models index.</span>
+    </div>
+</footer>
+
+<script>
+    /*
+        Semua logo brand di bawah mengambil logo brand resmi yang
+        didistribusikan melalui Simple Icons CDN, bukan placeholder.
+    */
+
+    const tools = [
+        {
+            name: "ChatGPT",
+            brand: "OpenAI",
+            logo: "chatgpt",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Assistant",
+            tags: ["assistant", "writing", "coding", "research", "model"],
+            description: "General-purpose AI assistant for reasoning, writing, coding and multimodal work.",
+            url: "https://chatgpt.com/"
+        },
+        {
+            name: "Claude",
+            brand: "Anthropic",
+            logo: "anthropic",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Assistant",
+            tags: ["assistant", "writing", "coding", "research", "model"],
+            description: "AI assistant for analysis, reasoning, long-form writing and software development.",
+            url: "https://claude.ai/"
+        },
+        {
+            name: "Gemini",
+            brand: "Google",
+            logo: "googlegemini",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Assistant",
+            tags: ["assistant", "research", "writing", "model", "image"],
+            description: "Google's multimodal AI for productivity, research, reasoning and creative tasks.",
+            url: "https://gemini.google.com/"
+        },
+        {
+            name: "Perplexity",
+            brand: "Perplexity",
+            logo: "perplexity",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Research",
+            tags: ["research", "search", "assistant"],
+            description: "AI answer engine for web research with citations and source-backed responses.",
+            url: "https://www.perplexity.ai/"
+        },
+        {
+            name: "GitHub Copilot",
+            brand: "GitHub",
+            logo: "githubcopilot",
+            pricing: "Paid",
+            access: ["paid"],
+            category: "Coding",
+            tags: ["coding", "developer"],
+            description: "AI coding assistant built directly into modern developer workflows and editors.",
+            url: "https://github.com/features/copilot"
+        },
+        {
+            name: "DeepSeek",
+            brand: "DeepSeek",
+            logo: "deepseek",
+            pricing: "Free",
+            access: ["free"],
+            category: "Model",
+            tags: ["model", "coding", "reasoning", "assistant"],
+            description: "AI models and assistant designed for reasoning, general tasks and programming.",
+            url: "https://www.deepseek.com/"
+        },
+        {
+            name: "Grok",
+            brand: "xAI",
+            logo: "x",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Assistant",
+            tags: ["assistant", "research", "model"],
+            description: "xAI's conversational AI assistant with reasoning, research and multimodal capabilities.",
+            url: "https://grok.com/"
+        },
+        {
+            name: "Microsoft Copilot",
+            brand: "Microsoft",
+            logo: "microsoftcopilot",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Productivity",
+            tags: ["assistant", "productivity", "writing"],
+            description: "Microsoft AI assistant for web tasks, productivity and the Microsoft ecosystem.",
+            url: "https://copilot.microsoft.com/"
+        },
+        {
+            name: "Mistral AI",
+            brand: "Mistral AI",
+            logo: "mistralai",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Model",
+            tags: ["model", "assistant", "coding"],
+            description: "European AI company offering efficient open and commercial language models.",
+            url: "https://mistral.ai/"
+        },
+        {
+            name: "Meta AI",
+            brand: "Meta",
+            logo: "meta",
+            pricing: "Free",
+            access: ["free"],
+            category: "Model",
+            tags: ["model", "assistant", "research"],
+            description: "Meta's AI ecosystem powered by the Llama family of large language models.",
+            url: "https://www.meta.ai/"
+        },
+        {
+            name: "Hugging Face",
+            brand: "Hugging Face",
+            logo: "huggingface",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Models",
+            tags: ["model", "developer", "coding"],
+            description: "Open machine-learning platform for discovering, sharing and deploying AI models.",
+            url: "https://huggingface.co/"
+        },
+        {
+            name: "Cursor",
+            brand: "Cursor",
+            logo: "cursor",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Coding",
+            tags: ["coding", "developer"],
+            description: "AI-first code editor designed for agentic programming and codebase assistance.",
+            url: "https://cursor.com/"
+        },
+        {
+            name: "Replit",
+            brand: "Replit",
+            logo: "replit",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Coding",
+            tags: ["coding", "developer"],
+            description: "Cloud development platform with AI-assisted application creation and deployment.",
+            url: "https://replit.com/"
+        },
+        {
+            name: "Midjourney",
+            brand: "Midjourney",
+            logo: "midjourney",
+            pricing: "Paid",
+            access: ["paid"],
+            category: "Image",
+            tags: ["image", "creative"],
+            description: "Generative AI platform specialized in high-quality image creation from prompts.",
+            url: "https://www.midjourney.com/"
+        },
+        {
+            name: "Adobe Firefly",
+            brand: "Adobe",
+            logo: "adobe",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Image",
+            tags: ["image", "creative"],
+            description: "Adobe's generative AI tools for creating and editing visual creative content.",
+            url: "https://firefly.adobe.com/"
+        },
+        {
+            name: "Canva AI",
+            brand: "Canva",
+            logo: "canva",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Design",
+            tags: ["image", "creative", "productivity"],
+            description: "AI-powered design features integrated into Canva's visual creation platform.",
+            url: "https://www.canva.com/ai/"
+        },
+        {
+            name: "Notion AI",
+            brand: "Notion",
+            logo: "notion",
+            pricing: "Paid",
+            access: ["paid"],
+            category: "Productivity",
+            tags: ["writing", "productivity", "assistant"],
+            description: "AI assistance integrated into Notion for writing, search and workspace knowledge.",
+            url: "https://www.notion.com/product/ai"
+        },
+        {
+            name: "Grammarly",
+            brand: "Grammarly",
+            logo: "grammarly",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Writing",
+            tags: ["writing", "productivity"],
+            description: "AI writing assistant for grammar, clarity, rewriting and professional communication.",
+            url: "https://www.grammarly.com/"
+        },
+        {
+            name: "ElevenLabs",
+            brand: "ElevenLabs",
+            logo: "elevenlabs",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Audio",
+            tags: ["audio", "voice", "creative"],
+            description: "Generative voice and audio platform for speech, dubbing and conversational AI.",
+            url: "https://elevenlabs.io/"
+        },
+        {
+            name: "Runway",
+            brand: "Runway",
+            logo: "runway",
+            pricing: "Free / Paid",
+            access: ["free", "paid"],
+            category: "Video",
+            tags: ["video", "image", "creative"],
+            description: "Generative AI platform for video creation, transformation and creative production.",
+            url: "https://runwayml.com/"
+        }
+    ];
+
+    const grid = document.getElementById("toolsGrid");
+    const input = document.getElementById("searchInput");
+    const buttons = document.querySelectorAll(".filter");
+    const resultCount = document.getElementById("resultCount");
+    const emptyState = document.getElementById("emptyState");
+
+    let activeFilter = "all";
+
+    function logoURL(slug) {
+        return `https://cdn.simpleicons.org/${slug}/000000`;
+    }
+
+    function escapeHTML(value) {
+        return value.replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[char]);
+    }
+
+    function render() {
+        const search = input.value.trim().toLowerCase();
+
+        const filtered = tools.filter(tool => {
+            const haystack = [
+                tool.name,
+                tool.brand,
+                tool.category,
+                tool.pricing,
+                ...tool.tags
+            ].join(" ").toLowerCase();
+
+            const searchMatch = haystack.includes(search);
+
+            let filterMatch = true;
+
+            if (activeFilter === "free" || activeFilter === "paid") {
+                filterMatch = tool.access.includes(activeFilter);
+            } else if (activeFilter !== "all") {
+                filterMatch =
+                    tool.tags.includes(activeFilter) ||
+                    tool.category.toLowerCase() === activeFilter;
+            }
+
+            return searchMatch && filterMatch;
+        });
+
+        resultCount.textContent =
+            `${filtered.length} result${filtered.length === 1 ? "" : "s"}`;
+
+        if (!filtered.length) {
+            grid.style.display = "none";
+            emptyState.style.display = "block";
+            return;
+        }
+
+        grid.style.display = "grid";
+        emptyState.style.display = "none";
+
+        grid.innerHTML = filtered.map(tool => `
+            <a
+                class="card"
+                href="${tool.url}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open ${escapeHTML(tool.name)}"
+            >
+                <div class="card-top">
+                    <img
+                        class="logo"
+                        src="${logoURL(tool.logo)}"
+                        alt="${escapeHTML(tool.brand)} logo"
+                        loading="lazy"
+                    >
+                    <span class="price">${escapeHTML(tool.pricing)}</span>
+                </div>
+
+                <h3>${escapeHTML(tool.name)}</h3>
+
+                <p class="description">
+                    ${escapeHTML(tool.description)}
+                </p>
+
+                <div class="card-bottom">
+                    <span class="category">
+                        ${escapeHTML(tool.category)}
+                    </span>
+
+                    <span class="visit">
+                        Visit ↗
+                    </span>
+                </div>
+            </a>
+        `).join("");
+    }
+
+    input.addEventListener("input", render);
+
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            activeFilter = button.dataset.filter;
+
+            buttons.forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+
+            render();
+        });
+    });
+
+    /*
+        dashboard.html -> /dashboard
+    */
+    if (
+        location.protocol !== "file:" &&
+        (location.pathname.endsWith("/dashboard.html") ||
+         location.pathname.endsWith("dashboard.html"))
+    ) {
+        history.replaceState({}, "", "/dashboard");
+    }
+
+    /*
+        Agar tetap dapat dites dengan membuka file HTML secara langsung.
+        Pada production routing tetap menggunakan / dan /dashboard.
+    */
+    document.querySelectorAll("[data-route]").forEach(link => {
+        link.addEventListener("click", function (event) {
+            const route = this.dataset.route;
+
+            if (location.protocol === "file:") {
+                event.preventDefault();
+
+                if (route === "/") {
+                    location.href = "index.html";
+                } else {
+                    location.href = "dashboard.html";
+                }
+            }
+        });
+    });
+
+    render();
+</script>
+
+</body>
+</html>
